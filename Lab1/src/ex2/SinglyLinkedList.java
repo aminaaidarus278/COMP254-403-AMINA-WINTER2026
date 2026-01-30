@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ex1;
+package ex2;
 
 /**
  * A basic singly linked list implementation.
@@ -220,6 +220,32 @@ public class SinglyLinkedList<E> implements Cloneable {
     sb.append(")");
     return sb.toString();
   }
+
+  /**
+   * Swaps the first two nodes (nodes 1 and 2) in the list.
+   */
+  public void swapNodes() {
+
+    // check: need at least two nodes
+    if (head == null || head.getNext() == null)
+      return;
+
+    Node<E> first = head;          // node 1
+    Node<E> second = head.getNext(); // node 2
+
+    // swap links
+    first.setNext(second.getNext());
+    second.setNext(first);
+
+    // update head
+    head = second;
+
+    // fix tail if list had exactly two nodes
+    if (first.getNext() == null)
+      tail = first;
+  }
+
+
   //main method
   public static void main(String[] args)
   {
@@ -232,6 +258,20 @@ public class SinglyLinkedList<E> implements Cloneable {
 	  list.addFirst("LAX");
 	  System.out.println(list);
 	  //
+
+    SinglyLinkedList<String> que2 = new SinglyLinkedList<>();
+    que2.addLast("A");
+    que2.addLast("B");
+    que2.addLast("C");
+
+
+    System.out.println("\n--------exercise 2- Singly Linked Lists ");
+    System.out.println("Before: " + que2);
+
+    que2.swapNodes();
+
+    System.out.println("After swap nodes 1 and 2: " + que2);
+
   }
   
 }

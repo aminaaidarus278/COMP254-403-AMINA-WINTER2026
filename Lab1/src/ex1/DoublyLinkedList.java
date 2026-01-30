@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ex2;
+package ex1;
 
 /**
  * A basic doubly linked list implementation.
@@ -223,7 +223,44 @@ public class DoublyLinkedList<E> {
     sb.append(")");
     return sb.toString();
   }
-//main method
+
+  /**
+   * a method for concatenating two doubly linked lists L and M,
+   * with header and trailer sentinel nodes, into a single list L′
+   */
+
+  /**
+   * Concatenates list M to the end of this list L in O(1) time.
+   * After concatenation, M becomes empty.
+   */
+  public void concatenate(DoublyLinkedList<E> M) {
+
+    if (M == null || M.isEmpty()) return;   // nothing to concatenate
+
+    // Get key nodes
+    Node<E> lastL = this.trailer.getPrev();   // last real node of L
+    Node<E> firstM = M.header.getNext();      // first real node of M
+    Node<E> lastM = M.trailer.getPrev();      // last real node of M
+
+    // Connect end of L to beginning of M
+    lastL.setNext(firstM);
+    firstM.setPrev(lastL);
+
+    // Connect end of M to trailer of L
+    lastM.setNext(this.trailer);
+    this.trailer.setPrev(lastM);
+
+    // Update size
+    this.size += M.size;
+
+    // Make M empty
+    M.header.setNext(M.trailer);
+    M.trailer.setPrev(M.header);
+    M.size = 0;
+  }
+
+
+  //main method
   public static void main(String[] args)
   {
 	  //create and populate a doubly linked list
@@ -237,5 +274,25 @@ public class DoublyLinkedList<E> {
 	  System.out.println(list);
 	  System.out.println(list.first());
 	  //
+
+
+    DoublyLinkedList<String> L = new DoublyLinkedList<>();
+    L.addLast("A");
+    L.addLast("B");
+
+    DoublyLinkedList<String> M = new DoublyLinkedList<>();
+    M.addLast("C");
+    M.addLast("D");
+
+    System.out.println("\n--------exercise 1- Doubly Linked Lists ");
+    System.out.println("L before: " + L);
+    System.out.println("M before: " + M);
+
+    L.concatenate(M);
+
+    System.out.println("L after concatenation: " + L);
+    System.out.println("M after concatenation: " + M);
   }
+
 } //----------- end of DoublyLinkedList class -----------
+
